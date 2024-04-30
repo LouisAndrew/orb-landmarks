@@ -15,6 +15,8 @@ export default function ({
 }) {
   async function centerLandmark(landmark: Item) {
     await sdk.viewport.reset();
+    await sdk.player.setSyncView(true);
+
     const width = await sdk.viewport.getWidth();
     const height = await sdk.viewport.getHeight();
 
@@ -25,6 +27,18 @@ export default function ({
         y: landmark.position.y * -1 + GRID_SIZE + height / 2,
       },
     });
+
+    const fogs = await sdk.scene.items.getItems(
+      (item) => item.layer === "FOG" && item.attachedTo === landmark.id,
+    );
+
+    await Promise.all(
+      fogs.map(async (f) =>
+        sdk.scene.items.updateItems([f], ([fog]) => {
+          fog.visible = false;
+        }),
+      ),
+    );
   }
 
   async function removeLandmark(landmark: Item) {
@@ -55,7 +69,6 @@ export default function ({
         <button onClick={() => centerLandmark(item)}>C</button>
         <button onClick={() => removeLandmark(item)}>-</button>
         <button onClick={() => renameLandmark(item)}>N</button>
-        <button onClick={() => console.log(item)}>L</button>
       </div>
     </div>
   );
