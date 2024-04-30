@@ -26,6 +26,17 @@ export default function () {
     setItems(newItems);
   }
 
+  async function hideAllFogs() {
+    const fogs = await sdk.scene.items.getItems((item) => item.layer === "FOG");
+    await Promise.all(
+      fogs.map(async (f) =>
+        sdk.scene.items.updateItems([f], ([fog]) => {
+          fog.visible = true;
+        }),
+      ),
+    );
+  }
+
   return (
     <div class="landmark-list">
       <h3>Landmarks</h3>
@@ -40,6 +51,14 @@ export default function () {
 
       <button class="ghost" onClick={refreshLandmarks}>
         Refresh Landmarks
+      </button>
+
+      <button
+        class="ghost"
+        style={{ "margin-left": "12px" }}
+        onClick={hideAllFogs}
+      >
+        Hide all fogs
       </button>
     </div>
   );
