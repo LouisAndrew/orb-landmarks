@@ -39,6 +39,7 @@ export default function ({
     sdk.scene.items.updateItems([landmark], ([item]) => {
       if (item) {
         item.metadata[METADATA_PROPERTY].name = window.prompt("Landmark name");
+        item.text.plainText = item.metadata[METADATA_PROPERTY].name;
       }
     });
   }
@@ -54,6 +55,7 @@ export default function ({
         <button onClick={() => centerLandmark(item)}>C</button>
         <button onClick={() => removeLandmark(item)}>-</button>
         <button onClick={() => renameLandmark(item)}>N</button>
+        <button onClick={() => console.log(item)}>L</button>
       </div>
     </div>
   );

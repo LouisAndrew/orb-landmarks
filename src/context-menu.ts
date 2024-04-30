@@ -42,6 +42,7 @@ export function setupContextMenu(sdk: ORB) {
           };
 
           if (addLandmark) {
+            item.text.plainText = landmarkName;
             return (item.metadata[METADATA_PROPERTY] = landmarkMetadata);
           }
 
