@@ -8,6 +8,7 @@ import sdk from "./orb";
 
 function App() {
   const [isReady, setIsReady] = createSignal(false);
+  window.scale = parseFloat(localStorage.getItem("scale") || "1");
   onMount(() => {
     sdk.onReady(() => {
       setIsReady(true);

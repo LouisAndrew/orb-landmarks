@@ -21,7 +21,7 @@ export default function ({
     const height = await sdk.viewport.getHeight();
 
     await sdk.viewport.animateTo({
-      scale: 1,
+      scale: window.scale,
       position: {
         x: landmark.position.x * -1 + GRID_SIZE + width / 2,
         y: landmark.position.y * -1 + GRID_SIZE + height / 2,
@@ -39,15 +39,22 @@ export default function ({
         }),
       ),
     );
+
+    await sdk.player.setSyncView(false);
   }
 
-  async function removeLandmark(landmark: Item) {
-    sdk.scene.items.updateItems([landmark], ([item]) => {
-      if (item) {
-        delete item.metadata[METADATA_PROPERTY];
-      }
-    });
+  function landmarkName() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (item as any)?.text?.plainText || metadata.name;
   }
+
+  // async function removeLandmark(landmark: Item) {
+  //   sdk.scene.items.updateItems([landmark], ([item]) => {
+  //     if (item) {
+  //       delete item.metadata[METADATA_PROPERTY];
+  //     }
+  //   });
+  // }
 
   async function renameLandmark(landmark: Item) {
     sdk.scene.items.updateItems([landmark], ([item]) => {
@@ -62,12 +69,12 @@ export default function ({
     <div class="landmark">
       <span>
         {children}
-        <span>{metadata.name}</span>
+        <span>{landmarkName()}</span>
       </span>
 
       <div class="buttons">
         <button onClick={() => centerLandmark(item)}>C</button>
-        <button onClick={() => removeLandmark(item)}>-</button>
+        {/* <button onClick={() => removeLandmark(item)}>-</button> */}
         <button onClick={() => renameLandmark(item)}>N</button>
       </div>
     </div>
