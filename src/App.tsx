@@ -5,6 +5,7 @@ import { createSignal, onMount, Show } from "solid-js";
 import { setupContextMenu } from "./context-menu";
 import LandmarkList from "./LandmarkList";
 import sdk from "./orb";
+import Scale, { ScaleProvider } from "./Scale";
 
 function App() {
   const [isReady, setIsReady] = createSignal(false);
@@ -18,9 +19,12 @@ function App() {
 
   return (
     <Show when={isReady()}>
-      <div class="app">
-        <LandmarkList />
-      </div>
+      <ScaleProvider>
+        <div class="app">
+          <Scale />
+          <LandmarkList />
+        </div>
+      </ScaleProvider>
     </Show>
   );
 }
