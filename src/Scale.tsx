@@ -2,7 +2,7 @@ import type { JSXElement } from "solid-js";
 import { createContext, createSignal, For, useContext } from "solid-js";
 
 const STORAGE_KEY = "scale";
-const defaultScale = parseFloat(localStorage.getItem(STORAGE_KEY) || "1");
+const defaultScale = parseFloat(localStorage.getItem(STORAGE_KEY) || "0.5");
 
 function makeScaleContext() {
   const [scale, setScale] = createSignal(defaultScale);
