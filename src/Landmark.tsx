@@ -5,6 +5,10 @@ import sdk, { GRID_SIZE } from "./orb";
 import { useScale } from "./Scale";
 import type { LandmarkMetadata } from "./types";
 
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default function ({
   item,
   metadata,
@@ -18,7 +22,6 @@ export default function ({
 
   async function centerLandmark(landmark: Item) {
     await sdk.viewport.reset();
-    await sdk.player.setSyncView(true);
 
     const width = await sdk.viewport.getWidth();
     const height = await sdk.viewport.getHeight();
@@ -46,6 +49,8 @@ export default function ({
       ),
     );
 
+    await sdk.player.setSyncView(true);
+    await wait(200);
     await sdk.player.setSyncView(false);
   }
 
